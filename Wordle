@@ -1,0 +1,45 @@
+import java.util.Scanner;
+
+// 
+public class Wordle{
+  public static void main(String[] args){
+    Scanner scanner = new Scanner(System.in);
+    System.out.println("Welcome to Wordle! Try to guess the word:");
+    String secretWord = "space";
+    int maxAttempts = 5;
+    int attempts = 0;
+
+    while (attempts < maxAttempts) {
+      System.out.println("Enter a five letter word: ");
+      String guess = scanner.nextLine().toLowerCase();
+
+      if (guess.equals(secretWord)) {
+        System.out.println("Congrats! You guessed the word! You win!");
+        break;
+      } else {
+        String hint = generateHint(secretWord, guess);
+        System.out.println("Wrong guess. Here is a hint: " + hint);
+        attempts++;
+      }
+      if (attempts == maxAttempts) {
+        System.out.println("All of your attempts have been used. The answer was:" + secretWord);
+      }
+    }
+    scanner.close();
+  }
+  private static String generateHint(String secretWord, String guess) {
+    StringBuilder hint = new StringBuilder();
+    for (int i = 0; i < secretWord.length(); i++) {
+      if (i < guess.length() && secretWord.charAt(i) == guess.charAt(i)) {
+        hint.append(secretWord.charAt(i));
+      }
+      else if(secretWord.contains(String.valueOf(guess.charAt(i)))) {
+        hint.append("+");
+      }
+      else {
+        hint.append("-");
+      }
+    }
+    return hint.toString();
+  }
+}
